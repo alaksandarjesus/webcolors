@@ -3,18 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Webcolors:Generator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/webcolors.min.css">
+  <style>
+    .panel-heading p{text-align: center; font-weight: bold; margin-bottom:0;}
+  </style>
+
 </head>
 <body ng-controller="wcController">
+  <div class="container">
 
-{{colorcss}}
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="form-group">
+          <input type="text" class="form-control" ng-model="search">
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div>
+      <div class="col-sm-3" ng-repeat="bgcss in bgcssArray track by $index">
+        <div class="panel panel-default">
+          <div class="panel-heading"><p>{{bgcss.name}}</p></div>
+          <div class="panel-body {{bgcss.css}}" style="height:80px; width:100%;">
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
   <script>
     angular.module('webcolors',[])
           .controller('wcController',['$scope','$http',function($scope,$http){
             var bgcss='';
+            var bgcssArray=[];
             var bordercss='';
+            var bgbordercssArray=[];
             var colorcss='';
+            var colorcssArray=[];
             var bordertypes =['solid','dashed','dotted'];
             $http.get('webcolors.txt')
              .success(generateCSS)
@@ -26,21 +53,25 @@
 
               function generateCSS (colors){
                 angular.forEach(colors, function(color){
-                //  bgcss = bgcss+".bg-"+color.class.toLowerCase()+"{background-color: "+color.color+";}";
+                  //bgcss = bgcss+".bg-"+color.class.toLowerCase()+"{background-color: "+color.color+";}";
+                  bgcssArray.push({css:"bg-"+color.class.toLowerCase(),name:color.class.toLowerCase(),color:color.color})
 
+                 for(var i = 1; i <=5; i++ ){
+                  for(var j=0; j<bordertypes.length;j++){
+                    //bordercss = bordercss+".border-"+i+"-"+bordertypes[j]+"-"+color.class.toLowerCase()+"{border:"+i+"px "+bordertypes[j]+" "+color.color+";}";
+                      bgbordercssArray.push("border-"+i+"-"+bordertypes[j]+"-"+color.class.toLowerCase())
+                   }
+                 }
 
-                // for(var i = 1; i <=5; i++ ){
-                //   for(var j=0; j<bordertypes.length;j++){
-                //     bordercss = bordercss+".border-"+i+"-"+bordertypes[j]+"-"+color.class.toLowerCase()+"{border:"+i+"px "+bordertypes[j]+" "+color.color+";}";
-                //   }
-                // }
-
-                colorcss = colorcss + ".color-"+color.class.toLowerCase()+"{"+color.color+";}";
-
+                //colorcss = colorcss + ".color-"+color.class.toLowerCase()+"{"+color.color+";}";
+                  colorcssArray.push("color-"+color.class.toLowerCase())
                 })
                 $scope.bgcss=bgcss;
                 $scope.bordercss=bordercss;
                 $scope.colorcss=colorcss;
+                $scope.bgcssArray=bgcssArray;
+                $scope.bgbordercssArray=bgbordercssArray;
+                $scope.colorcssArray=colorcssArray;
               }
           }])
   </script>
