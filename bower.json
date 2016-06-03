@@ -1,0 +1,22 @@
+{
+  "name": "webcolors",
+  "homepage": "https://github.com/alaksandarjesus/webcolors",
+  "authors": [
+    "iseed@iseedtechnologies.in"
+  ],
+  "description": "An opensource project by iSEED Technologies for webdevelopment",
+  "main": "",
+  "keywords": [
+    "css",
+    "webcolors",
+    "webcolor-framework"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

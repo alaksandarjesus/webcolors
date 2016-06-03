@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="webcolors">
+<head>
+  <meta charset="UTF-8">
+  <title>Webcolors:Generator</title>
+</head>
+<body ng-controller="wcController">
+
+{{colorcss}}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+  <script>
+    angular.module('webcolors',[])
+          .controller('wcController',['$scope','$http',function($scope,$http){
+            var bgcss='';
+            var bordercss='';
+            var colorcss='';
+            var bordertypes =['solid','dashed','dotted'];
+            $http.get('webcolors.txt')
+             .success(generateCSS)
+              .error(throwerror)
+
+              function throwerror (response){
+                alert("do not run the generator inside your project folder");
+              }
+
+              function generateCSS (colors){
+                angular.forEach(colors, function(color){
+                //  bgcss = bgcss+".bg-"+color.class.toLowerCase()+"{background-color: "+color.color+";}";
+
+
+                // for(var i = 1; i <=5; i++ ){
+                //   for(var j=0; j<bordertypes.length;j++){
+                //     bordercss = bordercss+".border-"+i+"-"+bordertypes[j]+"-"+color.class.toLowerCase()+"{border:"+i+"px "+bordertypes[j]+" "+color.color+";}";
+                //   }
+                // }
+
+                colorcss = colorcss + ".color-"+color.class.toLowerCase()+"{"+color.color+";}";
+
+                })
+                $scope.bgcss=bgcss;
+                $scope.bordercss=bordercss;
+                $scope.colorcss=colorcss;
+              }
+          }])
+  </script>
+
+</body>
+</html>
